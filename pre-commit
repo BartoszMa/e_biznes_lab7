@@ -1,0 +1,11 @@
+#!/bin/bash
+
+golangci-lint run ./...
+STATUS=$?
+
+if [ $STATUS -ne 0 ]; then
+    echo "golangci-lint found issues. Commit aborted."
+    exit 1
+fi
+
+exit 0

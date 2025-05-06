@@ -19,7 +19,10 @@ func main() {
 		panic("failed to connect database")
 	}
 
-	db.AutoMigrate(&models.Product{}, &models.Cart{}, &models.CartItem{}, &models.Payment{})
+	err = db.AutoMigrate(&models.Product{}, &models.Cart{}, &models.CartItem{}, &models.Payment{})
+	if err != nil {
+		panic("failed to migratet database")
+	}
 
 	productService := &service.Service{DB: db}
 	cartService := &service.CartService{DB: db}
@@ -38,6 +41,6 @@ func main() {
 		AllowMethods: []string{echo.GET, echo.POST, echo.PUT, echo.DELETE},
 		AllowHeaders: []string{echo.HeaderOrigin, echo.HeaderContentType, echo.HeaderAccept},
 	}))
-	
+
 	e.Logger.Fatal(e.Start(":4000"))
 }
