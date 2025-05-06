@@ -8,6 +8,8 @@ import (
 	"strconv"
 )
 
+const InvalidPaymentErr = "Invalid payment ID"
+
 type PaymentController struct {
 	PaymentService *service.PaymentService
 }
@@ -29,7 +31,7 @@ func (pc *PaymentController) CreatePayment(c echo.Context) error {
 func (pc *PaymentController) GetPaymentByID(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid payment ID"})
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": InvalidPaymentErr})
 	}
 
 	payment, err := pc.PaymentService.GetPaymentByID(uint(id))
@@ -43,7 +45,7 @@ func (pc *PaymentController) GetPaymentByID(c echo.Context) error {
 func (pc *PaymentController) DeletePayment(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid payment ID"})
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": InvalidPaymentErr})
 	}
 
 	err = pc.PaymentService.DeletePaymentByID(uint(id))
@@ -57,7 +59,7 @@ func (pc *PaymentController) DeletePayment(c echo.Context) error {
 func (pc *PaymentController) MarkPaymentAsPaid(c echo.Context) error {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {
-		return c.JSON(http.StatusBadRequest, map[string]string{"error": "Invalid payment ID"})
+		return c.JSON(http.StatusBadRequest, map[string]string{"error": InvalidPaymentErr})
 	}
 
 	err = pc.PaymentService.MarkAsPaid(uint(id))

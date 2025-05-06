@@ -5,13 +5,15 @@ import (
 	"lab4/controllers"
 )
 
-func ProductRouter(productController *controllers.ProductController, router *echo.Echo) {
-	router.POST("/product", productController.AddProduct)
+const ProductPrefix = "/product"
 
-	router.GET("/product", productController.GetAllProducts)
+func ProductRouter(productController *controllers.ProductController, router *echo.Echo) {
+	router.POST(ProductPrefix, productController.AddProduct)
+
+	router.GET(ProductPrefix, productController.GetAllProducts)
 	router.GET("/product/:id", productController.GetOneProduct)
 
-	router.PUT("/product", productController.EditProduct)
+	router.PUT(ProductPrefix, productController.EditProduct)
 
 	router.DELETE("/product/:id", productController.RemoveProduct)
 }
